@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Poster Ink Cover Studio — GTA-style multi-panel cover maker</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<main class="app">
+  <section class="controls">
+    <h1>Poster Ink <span>Cover Studio</span></h1>
+    <p class="lede">Your photos → a multi-panel GTA-style poster cover. Pick a panel, click a photo to fill it, drag to position, export the PNG. Photos never leave this machine.</p>
+    <label class="file">Photos <input id="photos" type="file" accept="image/*" multiple></label>
+    <div id="library" class="library" aria-label="Photo library"></div>
+    <div class="row">
+      <label>Layout <select id="layout"></select></label>
+      <label>Grade <select id="grade"></select></label>
+    </div>
+    <div class="row">
+      <label>Fill <select id="mode">
+        <option value="multi">A photo per panel</option>
+        <option value="sliced">One photo, sliced</option>
+      </select></label>
+      <label>Post size <select id="size"></select></label>
+    </div>
+    <div id="panels" class="panels" aria-label="Panels"></div>
+    <div class="row">
+      <label>Panel zoom <input id="zoom" type="range" min="100" max="250" value="100"></label>
+      <label>Print texture <input id="texture" type="range" min="0" max="100" value="80"></label>
+    </div>
+    <label>Caption <input id="caption" type="text" maxlength="42" value="Sunset Heist"></label>
+    <label>Kicker <input id="kicker" type="text" maxlength="42" value="Leonida Nights"></label>
+    <div class="row">
+      <button id="fill-all" type="button" class="ghost">One photo fills all panels</button>
+      <button id="export" type="button">Export PNG</button>
+    </div>
+    <p id="status" role="status"></p>
+  </section>
+  <section class="stage">
+    <canvas id="cover" width="1920" height="1080" aria-label="The cover, live preview"></canvas>
+  </section>
+</main>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
