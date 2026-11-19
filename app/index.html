@@ -3,44 +3,87 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Poster Ink Cover Studio — GTA-style multi-panel cover maker</title>
-<link rel="stylesheet" href="./style.css">
+<title>Poster Ink — Cover Studio</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<main class="app">
-  <section class="controls">
-    <h1>Poster Ink <span>Cover Studio</span></h1>
-    <p class="lede">Your photos → a multi-panel GTA-style poster cover. Pick a panel, click a photo to fill it, drag to position, export the PNG. Photos never leave this machine.</p>
-    <label class="file">Photos <input id="photos" type="file" accept="image/*" multiple></label>
-    <div id="library" class="library" aria-label="Photo library"></div>
-    <div class="row">
-      <label>Layout <select id="layout"></select></label>
-      <label>Grade <select id="grade"></select></label>
-    </div>
-    <div class="row">
-      <label>Fill <select id="mode">
-        <option value="multi">A photo per panel</option>
-        <option value="sliced">One photo, sliced</option>
-      </select></label>
-      <label>Post size <select id="size"></select></label>
-    </div>
-    <div id="panels" class="panels" aria-label="Panels"></div>
-    <div class="row">
-      <label>Panel zoom <input id="zoom" type="range" min="100" max="250" value="100"></label>
-      <label>Print texture <input id="texture" type="range" min="0" max="100" value="80"></label>
-    </div>
-    <label>Caption <input id="caption" type="text" maxlength="42" value="Sunset Heist"></label>
-    <label>Kicker <input id="kicker" type="text" maxlength="42" value="Leonida Nights"></label>
-    <div class="row">
-      <button id="fill-all" type="button" class="ghost">One photo fills all panels</button>
-      <button id="export" type="button">Export PNG</button>
-    </div>
-    <p id="status" role="status"></p>
-  </section>
+<header class="masthead">
+  <h1><span class="ink">Poster Ink</span><br><span class="studio">Cover Studio</span></h1>
+  <p class="tagline">Your photos &rarr; a multi-panel GTA-style poster cover. Pick a panel,
+  click a photo to fill it, drag to position, export the PNG. Photos never
+  leave this machine.</p>
+</header>
+
+<main id="editor">
+  <aside class="controls" aria-label="Cover controls">
+    <section>
+      <h2>Photos</h2>
+      <input type="file" id="upload" accept="image/*" multiple>
+      <div id="library" class="library" role="listbox" aria-label="Photo library"></div>
+      <p class="hint">Click a panel on the preview, then click a photo here to fill it.
+      Two sample photos are loaded for you.</p>
+    </section>
+
+    <section class="row">
+      <div>
+        <label for="layout">Layout</label>
+        <select id="layout"></select>
+      </div>
+      <div>
+        <label for="grade">Grade</label>
+        <select id="grade"></select>
+      </div>
+    </section>
+
+    <section class="row">
+      <div>
+        <label for="fill">Fill</label>
+        <select id="fill">
+          <option value="per-panel">A photo per panel</option>
+          <option value="sliced">One photo, sliced across panels</option>
+          <option value="one">One photo fills all panels</option>
+        </select>
+      </div>
+      <div>
+        <label for="size">Post size</label>
+        <select id="size"></select>
+      </div>
+    </section>
+
+    <section>
+      <h2>Selected panel</h2>
+      <div id="panelDots" class="dots" aria-label="Select a panel"></div>
+      <label for="zoom">Panel zoom <output id="zoomOut">100%</output></label>
+      <input type="range" id="zoom" min="1" max="2.5" step="0.05" value="1">
+      <label for="texture">Print texture <output id="textureOut">100%</output></label>
+      <input type="range" id="texture" min="0" max="1" step="0.05" value="1">
+    </section>
+
+    <section>
+      <label for="caption">Caption</label>
+      <input type="text" id="caption" value="Sunset Heist" maxlength="48">
+      <label for="kicker">Kicker</label>
+      <input type="text" id="kicker" value="Leonida Nights" maxlength="48">
+    </section>
+
+    <section class="actions">
+      <button type="button" id="onePhoto" class="ghost">One photo fills all panels</button>
+      <button type="button" id="export" class="primary">Export PNG</button>
+    </section>
+    <p id="status" class="status" role="status"></p>
+  </aside>
+
   <section class="stage">
-    <canvas id="cover" width="1920" height="1080" aria-label="The cover, live preview"></canvas>
+    <canvas id="preview" width="1920" height="1080" aria-label="Live cover preview"></canvas>
+    <p class="hint">Drag on the preview to reposition the photo inside the selected panel.</p>
   </section>
 </main>
-<script type="module" src="./src/main.js"></script>
+
+<!-- Shot mode: a lone exported cover, no editor chrome. -->
+<section id="shotStage" hidden>
+  <canvas id="shotCanvas" aria-label="Exported cover"></canvas>
+</section>
+
+<script type="module" src="src/main.js"></script>
 </body>
 </html>
